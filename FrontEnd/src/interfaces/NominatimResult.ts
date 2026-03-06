@@ -4,7 +4,13 @@ export interface NominatimResult {
     lon: string;
 }
 
+export interface RutaGeometria {
+    type: string;
+    coordinates: [number, number][];
+}
+
 export interface RutaDatos {
     origen: NominatimResult;
-    destino: NominatimResult
+    destino: NominatimResult;
+    ruta: RutaGeometria;
 }

@@ -1,17 +1,14 @@
 import { useState } from "react"
 import { MapPin, Navigation, Building2 } from "lucide-react";
 import { MapaFondo } from "./components/MapaFondo";
-import type { NominatimResult } from "./interfaces/NominatimResult";
+import type { RutaDatos } from "./interfaces/NominatimResult";
 
 function App() {
   
   const [direccionOrigen, setDireccionOrigen] = useState<string>("");
   const [direccionDestino, setDireccionDestino] = useState<string>("");
   const [ciudad, setCiudad] = useState<string>("");
-  const [datosRutas, setDatosRutas] = useState<{
-    origen: NominatimResult,
-    destino: NominatimResult
-  } | null>(null);
+  const [datosRutas, setDatosRutas] = useState<RutaDatos | null>(null);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,16 +19,17 @@ function App() {
     }
 
     try {
-       const resOrigen = await fetch(`http://localhost:3000/api/search?q=${encodeURIComponent(direccionOrigen)},${ciudad}`);
-       const datosOrigen = await resOrigen.json()
 
-       const resDestino = await fetch(`http://localhost:3000/api/search?q=${encodeURIComponent(direccionDestino)}, ${ciudad}`);
-       const datosDestino = await resDestino.json();
+       const params = new URLSearchParams({
+         origen: direccionOrigen,
+         destino: direccionDestino,
+         ciudad: ciudad
+       })
 
-       console.log("Datos Origen:", datosOrigen);
-       console.log("Datos Destino:", datosDestino);
+       const res = await fetch(`http://localhost:3000/api/search?${params}`);
+       const datos: RutaDatos = await res.json();
 
-       setDatosRutas({ origen: datosOrigen[0], destino: datosDestino[0] });
+       setDatosRutas(datos);
        
     } catch (error) {
        alert("Error al buscar la dirección")
@@ -46,7 +44,7 @@ function App() {
 
   return (
     <>
-      <MapaFondo origen={datosRutas?.origen || null} destino={datosRutas?.destino || null}/>
+      <MapaFondo origen={datosRutas?.origen || null} destino={datosRutas?.destino || null} ruta={datosRutas?.ruta || null}/>
       <form onSubmit={handleSubmit} className="absolute top-6 md:top-10 left-1/2 -translate-x-1/2 z-20 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2 w-[92%] md:w-fit max-w-6xl p-3 md:p-2 bg-gray-400 rounded-3xl shadow-2xl">
         <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
           <div className="relative w-full md:w-64 lg:w-72 text-gray-500">
