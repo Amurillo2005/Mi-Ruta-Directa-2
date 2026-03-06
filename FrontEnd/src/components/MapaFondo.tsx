@@ -1,7 +1,8 @@
 import { MapContainer, TileLayer } from "react-leaflet"
 import "leaflet/dist/leaflet.css";
+import type { NominatimResult } from "../interfaces/NominatimResult";
 
-export const MapaFondo = () => {
+export const MapaFondo = ({ origen, destino }: {origen: NominatimResult | null, destino: NominatimResult | null }) => {
   return (
     <>
       <div className="fixed inset-0 z-0">
