@@ -1,9 +1,27 @@
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet"
 import "leaflet/dist/leaflet.css";
+import { memo } from "react";
+import L from "leaflet";
+import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
 import type { NominatimResult, RutaGeometria } from "../interfaces/NominatimResult";
+import { EnfocarRuta } from "./MapaControles";
 
+const origenIcon = L.icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  shadowUrl: MarkerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+})
 
-export const MapaFondo = ({ origen, destino, ruta }: { origen: NominatimResult | null, destino: NominatimResult | null, ruta: RutaGeometria | null }) => {
+const destinoIcon = L.icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+  shadowUrl: MarkerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+})
+
+export const MapaFondo = memo(({ origen, destino, ruta }: { origen: NominatimResult | null, destino: NominatimResult | null, ruta: RutaGeometria | null }) => {
+  console.log("Datos en el mapa:", { origen, destino, ruta });
   return (
     <>
       <div className="fixed inset-0 z-0">
@@ -13,19 +31,24 @@ export const MapaFondo = ({ origen, destino, ruta }: { origen: NominatimResult |
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {origen && !isNaN(parseFloat(origen.lat)) && (
-            <Marker position={[parseFloat(origen.lat), parseFloat(origen.lon)]} />
+          <EnfocarRuta origen={origen} destino={destino}/>
+
+          {origen && !isNaN(parseFloat(origen.lat)) && !isNaN(parseFloat(origen.lon)) && (
+            <Marker position={[parseFloat(origen.lat), parseFloat(origen.lon)]} icon={origenIcon}/>
           )}
-          {destino && !isNaN(parseFloat(destino.lat)) && (
-            <Marker position={[parseFloat(destino.lat), parseFloat(destino.lon)]} />
+          {destino && !isNaN(parseFloat(destino.lat)) && !isNaN(parseFloat(destino.lon)) && (
+            <Marker position={[parseFloat(destino.lat), parseFloat(destino.lon)]} icon={destinoIcon}/>
           )}
-          <Polyline
-            positions={ruta?.coordinates.map((coord: [number, number]) => [coord[1], coord[0]]) || []}
-            color="blue"
-            weight={5}
-          />
+          {ruta && ruta.coordinates && (
+            <Polyline
+              positions={ruta.coordinates.map((coord: [number, number]) => [coord[1], coord[0]])}
+              color="#3b82f6" 
+              weight={6}
+              opacity={0.8}
+            />
+          )}
         </MapContainer>
       </div>
     </>
   )
-}
+})

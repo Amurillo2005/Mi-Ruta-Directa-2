@@ -44,7 +44,7 @@ function App() {
 
   return (
     <>
-      <MapaFondo origen={datosRutas?.origen || null} destino={datosRutas?.destino || null} ruta={datosRutas?.ruta || null}/>
+      <MapaFondo origen={datosRutas?.origen ?? null} destino={datosRutas?.destino ?? null} ruta={datosRutas?.ruta ?? null}/>
       <form onSubmit={handleSubmit} className="absolute top-6 md:top-10 left-1/2 -translate-x-1/2 z-20 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2 w-[92%] md:w-fit max-w-6xl p-3 md:p-2 bg-gray-400 rounded-3xl shadow-2xl">
         <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
           <div className="relative w-full md:w-64 lg:w-72 text-gray-500">

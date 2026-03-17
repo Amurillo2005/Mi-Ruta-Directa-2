@@ -59,8 +59,8 @@ app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
         }
 
         res.json({
-            origen: { nombre: puntoOrigen.display_name, coords: [puntoOrigen.lat, puntoOrigen.lon] },
-            destino: { nombre: puntoDestino.display_name, coords: [puntoDestino.lat, puntoDestino.lon] },
+            origen: { nombre: puntoOrigen.display_name, lat: puntoOrigen.lat, lon: puntoOrigen.lon},
+            destino: { nombre: puntoDestino.display_name, lat: puntoDestino.lat, lon: puntoDestino.lon},
             ruta: osrmData.routes[0].geometry
         })
     } catch (error) {
