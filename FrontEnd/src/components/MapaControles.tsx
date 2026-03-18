@@ -1,6 +1,6 @@
 import { useMap } from "react-leaflet"
 import { useEffect } from "react";
-import type { NominatimResult } from "../interfaces/NominatimResult";
+import type { NominatimResult } from "../interfaces/interfaces";
 
 export const EnfocarRuta = ({origen, destino}: { origen: NominatimResult | null, destino: NominatimResult | null}) => {
   const map = useMap();
@@ -9,10 +9,9 @@ export const EnfocarRuta = ({origen, destino}: { origen: NominatimResult | null,
     if (!origen || !destino) return
     
     const bounds: [number, number][] = [
-      [parseFloat(origen.lat), parseFloat(origen.lon)],
-      [parseFloat(destino.lat), parseFloat(destino.lon)]
+      [origen.lat, origen.lon],
+      [destino.lat, destino.lon]
     ]
-
 
     map.fitBounds(bounds, { padding: [50, 50] })
 

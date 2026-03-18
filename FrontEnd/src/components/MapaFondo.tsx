@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { memo } from "react";
 import L from "leaflet";
 import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
-import type { NominatimResult, RutaGeometria } from "../interfaces/NominatimResult";
+import type { NominatimResult, RutaGeometria } from "../interfaces/interfaces";
 import { EnfocarRuta } from "./MapaControles";
 
 const origenIcon = L.icon({
@@ -22,6 +22,7 @@ const destinoIcon = L.icon({
 
 export const MapaFondo = memo(({ origen, destino, ruta }: { origen: NominatimResult | null, destino: NominatimResult | null, ruta: RutaGeometria | null }) => {
   console.log("Datos en el mapa:", { origen, destino, ruta });
+
   return (
     <>
       <div className="fixed inset-0 z-0">
@@ -33,11 +34,11 @@ export const MapaFondo = memo(({ origen, destino, ruta }: { origen: NominatimRes
 
           <EnfocarRuta origen={origen} destino={destino}/>
 
-          {origen && !isNaN(parseFloat(origen.lat)) && !isNaN(parseFloat(origen.lon)) && (
-            <Marker position={[parseFloat(origen.lat), parseFloat(origen.lon)]} icon={origenIcon}/>
+          {origen && !isNaN(origen.lat) && !isNaN(origen.lon) && (
+            <Marker position={[origen.lat, origen.lon]} icon={origenIcon}/>
           )}
-          {destino && !isNaN(parseFloat(destino.lat)) && !isNaN(parseFloat(destino.lon)) && (
-            <Marker position={[parseFloat(destino.lat), parseFloat(destino.lon)]} icon={destinoIcon}/>
+          {destino && !isNaN(destino.lat) && !isNaN(destino.lon) && (
+            <Marker position={[destino.lat, destino.lon]} icon={destinoIcon}/>
           )}
           {ruta && ruta.coordinates && (
             <Polyline
