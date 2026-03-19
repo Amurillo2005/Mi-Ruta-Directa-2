@@ -1,7 +1,7 @@
 import type { Dispatch, SubmitEvent, SetStateAction } from "react";
 
 export interface NominatimResult {
-    display_name: string;
+    nombre: string;
     lat: number;
     lon: number;
 }

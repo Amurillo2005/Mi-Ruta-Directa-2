@@ -47,9 +47,6 @@ app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
         const puntoOrigen = dataOrigen[0];
         const puntoDestino = dataDestino[0];
 
-        console.log("Punto Origen:", puntoOrigen);
-        console.log("Punto Destino:", puntoDestino);
-
         const osrmRuta = await fetch(`https://router.project-osrm.org/route/v1/driving/${puntoOrigen.lon},${puntoOrigen.lat};${puntoDestino.lon},${puntoDestino.lat}?overview=full&geometries=geojson`);
         const osrmData = await osrmRuta.json();
 

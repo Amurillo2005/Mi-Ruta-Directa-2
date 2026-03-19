@@ -22,7 +22,6 @@ const destinoIcon = L.icon({
 })
 
 export const MapaFondo = memo(({ origen, destino, ruta }: { origen: NominatimResult | null, destino: NominatimResult | null, ruta: RutaGeometria | null }) => {
-  console.log("Datos en el mapa:", { origen, destino, ruta });
 
   const { position } = useMyLocation();
 
@@ -45,10 +44,14 @@ export const MapaFondo = memo(({ origen, destino, ruta }: { origen: NominatimRes
           )}
 
           {origen && !isNaN(origen.lat) && !isNaN(origen.lon) && (
-            <Marker position={[origen.lat, origen.lon]} icon={origenIcon}/>
+            <Marker position={[origen.lat, origen.lon]} icon={origenIcon}>
+              <Popup>{origen.nombre}</Popup>
+            </Marker>
           )}
           {destino && !isNaN(destino.lat) && !isNaN(destino.lon) && (
-            <Marker position={[destino.lat, destino.lon]} icon={destinoIcon}/>
+            <Marker position={[destino.lat, destino.lon]} icon={destinoIcon}>
+              <Popup>{destino.nombre}</Popup>
+            </Marker>
           )}
           {ruta && (
             <Polyline
